@@ -26,7 +26,58 @@ https://templatemo.com/tm-589-lugx-gaming
 
 -->
   </head>
+<script>
+  const ANALYTICS_API = "http://localhost:8004/events";
 
+  const sessionId = sessionStorage.getItem("lugx-session") || "sess-" + Date.now();
+  sessionStorage.setItem("lugx-session", sessionId);
+
+  function sendEvent(eventType, pageUrl, depth = 0) {
+    fetch(ANALYTICS_API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event_type: eventType,
+        page_url: pageUrl,
+        session_id: sessionId,
+        depth: depth
+      })
+    }).then(() => {
+      console.log(`📡 Sent ${eventType}${depth ? ` (${depth}%)` : ""} to ${pageUrl}`);
+    }).catch(err => {
+      console.error("❌ Event Error:", err);
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Page view
+    sendEvent("page_view", window.location.pathname);
+
+    // Click tracking
+    document.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", function () {
+        sendEvent("click", link.href);
+      });
+    });
+
+    // Scroll tracking
+    let scrollThresholds = [50, 75, 100];
+    let scrollSent = {};
+
+    window.addEventListener("scroll", () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const scrolledPercent = Math.round((scrollTop / docHeight) * 100);
+
+      scrollThresholds.forEach((threshold) => {
+        if (scrolledPercent >= threshold && !scrollSent[threshold]) {
+          scrollSent[threshold] = true;
+          sendEvent("scroll_depth", window.location.href, threshold);
+        }
+      });
+    });
+  });
+</script>
 <body>
 
   <!-- ***** Preloader Start ***** -->
@@ -219,6 +270,6 @@ https://templatemo.com/tm-589-lugx-gaming
   <script src="assets/js/owl-carousel.js"></script>
   <script src="assets/js/counter.js"></script>
   <script src="assets/js/custom.js"></script>
-
+  <script src="js/analytics.js"></script>
   </body>
 </html>
