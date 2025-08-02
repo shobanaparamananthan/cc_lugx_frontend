@@ -27,7 +27,7 @@ https://templatemo.com/tm-589-lugx-gaming
 -->
   </head>
 <script>
-  const ANALYTICS_API = "http://localhost:8004/events";
+   const ANALYTICS_API = "/events";
 
   const sessionId = sessionStorage.getItem("lugx-session") || "sess-" + Date.now();
   sessionStorage.setItem("lugx-session", sessionId);
@@ -51,7 +51,7 @@ https://templatemo.com/tm-589-lugx-gaming
 
   document.addEventListener("DOMContentLoaded", () => {
     // Page view
-    sendEvent("page_view", window.location.pathname);
+    sendEvent("page_view", window.location.href);
 
     // Click tracking
     document.querySelectorAll("a").forEach(link => {
@@ -270,6 +270,6 @@ https://templatemo.com/tm-589-lugx-gaming
   <script src="assets/js/owl-carousel.js"></script>
   <script src="assets/js/counter.js"></script>
   <script src="assets/js/custom.js"></script>
-  <script src="js/analytics.js"></script>
+
   </body>
 </html>

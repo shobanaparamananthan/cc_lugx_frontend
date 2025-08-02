@@ -28,7 +28,7 @@ https://templatemo.com/tm-589-lugx-gaming
 -->
   </head>
 <script>
-  const ANALYTICS_API = "http://localhost:8004/events";
+  const ANALYTICS_API = "/events";
 
   const sessionId = sessionStorage.getItem("lugx-session") || "sess-" + Date.now();
   sessionStorage.setItem("lugx-session", sessionId);
@@ -331,11 +331,10 @@ https://templatemo.com/tm-589-lugx-gaming
       </div>
     </div>
   </footer>
-    <!-- Temporary div to force scroll (for testing) -->
-  <div style="height: 2000px;"></div>
+ 
 
   <!-- Your analytics script at the very end -->
-  <script src="js/analytics.js"></script>
+
   <!-- Scripts -->
   <!-- Bootstrap core JavaScript -->
   <script src="vendor/jquery/jquery.min.js"></script>
